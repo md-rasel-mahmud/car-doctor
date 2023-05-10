@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logo from '../assets/logo.svg'
 
 const Navbar = () => {
   const navigation = (
@@ -16,7 +17,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar my-5 bg-base-100">
+    <div className="navbar max-w-[90%] mx-auto my-5 bg-base-100">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -42,7 +43,7 @@ const Navbar = () => {
             {navigation}
           </ul>
         </div>
-        <a className="btn btn-ghost normal-case text-xl">Appointment</a>
+        <Link to='/'><img src={logo} className="w-14" alt="logo" /></Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navigation}</ul>
