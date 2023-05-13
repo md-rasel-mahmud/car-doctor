@@ -11,7 +11,7 @@ const Banner = () => {
       <div id="slide1" className="carousel-item relative w-full">
         <img
           src={bannerImg1}
-          className="w-full object-cover"
+          className="w-full object-cover object-top"
         />
         <div className="absolute h-full  bg-gradient-to-r to-transparent from-black flex items-center gap-5 w-full">
           <div className='flex flex-col gap-5 pl-8 w-2/4'>
@@ -35,7 +35,7 @@ const Banner = () => {
       <div id="slide2" className="carousel-item relative w-full">
         <img
           src={bannerImg2}
-          className="w-full object-cover"
+          className="w-full object-cover object-top"
         />
         <div className="absolute h-full  bg-gradient-to-r to-transparent from-black flex items-center gap-5 w-full">
           <div className='flex flex-col gap-5 pl-8 w-2/4'>
@@ -59,7 +59,7 @@ const Banner = () => {
       <div id="slide3" className="carousel-item relative w-full">
         <img
           src={bannerImg3}
-          className="w-full object-cover"
+          className="w-full object-cover object-top"
         />
         <div className="absolute h-full  bg-gradient-to-r to-transparent from-black flex items-center gap-5 w-full">
           <div className='flex flex-col gap-5 pl-8 w-2/4'>
@@ -83,7 +83,7 @@ const Banner = () => {
       <div id="slide4" className="carousel-item relative w-full">
         <img
           src={bannerImg4}
-          className="w-full object-cover"
+          className="w-full object-cover object-top"
         />
         <div className="absolute h-full  bg-gradient-to-r to-transparent from-black flex items-center gap-5 w-full">
           <div className='flex flex-col gap-5 pl-8 w-2/4'>

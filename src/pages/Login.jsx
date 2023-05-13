@@ -1,7 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginImg from "../assets/images/login/login.svg";
+import { useContext } from "react";
+import { AuthContext } from "../providers/AuthProvider";
 
 const Login = () => {
+
+  const {loginWithManual} = useContext(AuthContext);
+  const navigate = useNavigate()
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -10,10 +15,16 @@ const Login = () => {
 
         const email = form.email.value;
         const password = form.password.value;
-        
-        form.reset()
 
-        console.log(email, password);
+        loginWithManual(email, password)
+        .then((result) => {
+          const user = result.user;
+          console.log(user);
+          alert('login successfully')
+          form.reset()
+          navigate('/')
+        })
+        .catch(error => console.log(error.message))
 
     }
 
@@ -31,7 +42,7 @@ const Login = () => {
                   <span className="label-text">Email</span>
                 </label>
                 <input
-                  type="text"
+                  type="email"
                   placeholder="Email"
                   className="input input-bordered"
                   name="email"
@@ -42,7 +53,7 @@ const Login = () => {
                   <span className="label-text">Password</span>
                 </label>
                 <input
-                  type="text"
+                  type="password"
                   placeholder="password"
                   className="input input-bordered"
                   name="password"

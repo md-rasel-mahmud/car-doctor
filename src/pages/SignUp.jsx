@@ -1,22 +1,51 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import signUpImg from "../assets/images/login/login.svg";
+import { useContext, useState } from "react";
+import { AuthContext } from "../providers/AuthProvider";
 
 const SignUp = () => {
+  const { signUpWithManual, updateAdditionalInfo } = useContext(AuthContext);
+  const [showPass, setShowPass] = useState(false)
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
+  const navigate = useNavigate()
 
-        const form = event.target;
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-        const name = form.name.value;
-        const email= form.email.value;
-        const password = form.password.value;
-        const confirmPass = form.confirmPass.value;
+    const form = event.target;
 
-        form.reset()
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const confirmPass = form.confirmPass.value;
+    const photoUrl = "";
 
-        console.log(name, email, password, confirmPass);
+    if (password !== confirmPass) {
+      alert("Password doesn't match");
+      return;
     }
+    if (password.length < 6 || confirmPass.length < 6) {
+      alert("Password should be more then 6 character");
+      return;
+    }
+
+    signUpWithManual(email, password)
+      .then((result) => {
+        const user = result.user;
+        updateAdditionalInfo(name, photoUrl)
+          .then(() => {
+            alert("user create success");
+            form.reset();
+            navigate('/')
+          })
+          .catch((error) => console.log(error.message));
+        console.log(user);
+      })
+      .catch((error) => console.log(error.message));
+
+    // const user = { name, email, password, confirmPass };
+
+  };
 
   return (
     <div className="bg-base-200">
@@ -24,7 +53,10 @@ const SignUp = () => {
         <div className="hero-content flex-col lg:flex-row">
           <img src={signUpImg} className="max-w-sm rounded-lg shadow-2xl" />
 
-          <form onSubmit={handleSubmit} className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+          <form
+            onSubmit={handleSubmit}
+            className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100"
+          >
             <h2 className="text-center text-4xl mt-5 font-bold">Sign Up</h2>
             <div className="card-body">
               <div className="form-control">
@@ -36,6 +68,7 @@ const SignUp = () => {
                   placeholder="Name"
                   className="input input-bordered"
                   name="name"
+                  required
                 />
               </div>
               <div className="form-control">
@@ -43,10 +76,11 @@ const SignUp = () => {
                   <span className="label-text">Email</span>
                 </label>
                 <input
-                  type="text"
+                  type="email"
                   placeholder="Email"
                   className="input input-bordered"
                   name="email"
+                  required
                 />
               </div>
               <div className="form-control">
@@ -54,10 +88,11 @@ const SignUp = () => {
                   <span className="label-text">Password</span>
                 </label>
                 <input
-                  type="text"
+                  type={showPass ? 'text' : 'password'}
                   placeholder="Password"
                   className="input input-bordered"
                   name="password"
+                  required
                 />
               </div>
               <div className="form-control">
@@ -65,11 +100,15 @@ const SignUp = () => {
                   <span className="label-text">Confirm Password</span>
                 </label>
                 <input
-                  type="text"
+                  type={showPass ? 'text' : 'password'}
                   placeholder="Confirm Password"
                   className="input input-bordered"
                   name="confirmPass"
+                  required
                 />
+                <div>
+                <button onClick={()=>setShowPass(!showPass)} type="button" className="btn btn-sm capitalize rounded-full mt-4">{showPass ? 'hide password' : 'show password'}</button>
+                </div>
                 <label className="label">
                   Don't have an account?
                   <Link
@@ -81,7 +120,9 @@ const SignUp = () => {
                 </label>
               </div>
               <div className="form-control mt-6">
-                <button type="submit" className="btn btn-secondary">Sign Up</button>
+                <button type="submit" className="btn btn-secondary">
+                  Sign Up
+                </button>
               </div>
             </div>
           </form>

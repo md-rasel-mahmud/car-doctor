@@ -1,26 +1,35 @@
 import { Link } from "react-router-dom";
-import logo from '../assets/logo.svg'
+import logo from "../assets/logo.svg";
+import { useContext } from "react";
+import { AuthContext } from "../providers/AuthProvider";
+import { FaUser, FaUserAlt } from "react-icons/fa";
 
 const Navbar = () => {
+  const { user, logout } = useContext(AuthContext);
+
   const navigation = (
     <>
       <li>
-        <Link to='/'>Home</Link>
+        <Link to="/">Home</Link>
       </li>
       <li>
-        <Link to='/about'>About</Link>
+        <Link to="/about">About</Link>
       </li>
       <li>
-        <Link to='/contact'>Contact</Link>
+        <Link to="/contact">Contact</Link>
       </li>
-      <li>
-        <Link to='/login'>Login</Link>
-      </li>
+      {!user && (
+        <li>
+          <Link className="text-secondary" to="/login">
+            Login
+          </Link>
+        </li>
+      )}
     </>
   );
 
   return (
-    <div className="navbar max-w-[90%] mx-auto my-5 bg-base-100">
+    <div className="navbar max-w-[90%] sticky top-0 z-10 mx-auto my-5 bg-base-100">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -46,13 +55,30 @@ const Navbar = () => {
             {navigation}
           </ul>
         </div>
-        <Link to='/'><img src={logo} className="w-14" alt="logo" /></Link>
+        <Link to="/">
+          <img src={logo} className="w-14" alt="logo" />
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navigation}</ul>
       </div>
-      <div className="navbar-end">
-        <a className="btn btn-outline btn-secondary">Get started</a>
+      <div className="navbar-end gap-3">
+        {user ? (
+          <>
+            <div className="tooltip tooltip-bottom" data-tip={user.displayName ? user.displayName : user.email}>
+              <Link to="#" className="btn text-xl btn-secondary btn-circle">
+                <FaUserAlt />
+              </Link>
+            </div>
+            <button onClick={logout} className="btn btn-outline btn-secondary">
+              Log out
+            </button>
+          </>
+        ) : (
+          <Link to="/" className="btn btn-outline btn-secondary">
+            Appointment
+          </Link>
+        )}
       </div>
     </div>
   );
